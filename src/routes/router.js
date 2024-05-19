@@ -19,4 +19,15 @@ export class Router {
     this.#buildRoute(path, "GET", handle);
   }
 
+  put(path, handle) {
+    this.#buildRoute(path, "PUT", handle);
+  }
+
+  DELETE(path, handle) {
+    this.#buildRoute(path, "DELETE", handle);
+  }
+
+  PATCH(path, handle) {
+    this.#buildRoute(path, "PATCH", handle);
+  }
 }

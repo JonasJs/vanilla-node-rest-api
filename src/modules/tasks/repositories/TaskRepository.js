@@ -15,8 +15,8 @@ export class TaskReposistory {
     return data;
   }
 
-  listTasks({ filter } = {}) {
-    const tasks = database.select(this.#table, { filter });
+  listTasks(filter) {
+    const tasks = database.select(this.#table, filter);
 
     return tasks;
   }

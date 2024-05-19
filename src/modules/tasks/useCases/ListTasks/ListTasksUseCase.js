@@ -7,12 +7,13 @@ export class ListTasksUseCase {
     this.#taskRepository = new TaskReposistory();
   }
 
-  execute({ filter } = {}) {
-    const filterEntries = Object.entries(filter).filter(([_, value]) => typeof value === 'string');
-    
-    const filterData = Object.fromEntries(filterEntries);
+  execute(filter) {
 
-    const data = this.#taskRepository.listTasks({ filter: filterData });
+    const filterData = Object.fromEntries(
+      Object.entries(filter).filter(([_, value]) => typeof value === 'string')
+    );
+
+    const data = this.#taskRepository.listTasks(filterData);
 
     return data;
   }

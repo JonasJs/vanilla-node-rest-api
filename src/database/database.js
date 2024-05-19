@@ -18,20 +18,21 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database));
   }
 
-  select(table, { filter }) {
+  select(table, filter ) {
     let data = this.#database[table] ?? [];
 
-    console.log(filter);
-
+    // TODO: Melhorar essa validção de filtro.
     if(typeof filter === 'object') {
       data = data.filter(row => {
         const filterData = Object.entries(filter);
 
-        // const filterValues = filterData.filter(([key, value]) => typeof value === 'string');
+        if(filterData.length > 0) {
+          return filterData.some(([key, value]) => {
+            return row[key].toLowerCase().includes(value.toLowerCase());
+          });
+        }
 
-        return filterData.some(([key, value]) => {
-          return typeof value !== 'string' || row[key].toLowerCase().includes(value.toLowerCase());
-        });
+        return true;
       })
     }
 

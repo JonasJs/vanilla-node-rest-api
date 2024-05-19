@@ -9,10 +9,8 @@ export class ListTasksController {
     const listTasksUseCase = new ListTasksUseCase();
 
     const data = listTasksUseCase.execute({
-      filter: {
-        title,
-        description
-      }
+      title,
+      description,
     })
 
     return res.writeHead(200).end(JSON.stringify(data));

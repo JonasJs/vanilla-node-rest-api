@@ -11,6 +11,7 @@ const router = new Router();
 
 router.post("/tasks", createTasksController.handle);
 router.get("/tasks", listTasksController.handle);
+router.put("/tasks/:id", listTasksController.handle);
 
 const routes = router?.routes;
 
