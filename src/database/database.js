@@ -18,11 +18,27 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database));
   }
 
-  select({table}) {
-    return this.#database[table];
+  select(table, { filter }) {
+    let data = this.#database[table] ?? [];
+
+    console.log(filter);
+
+    if(typeof filter === 'object') {
+      data = data.filter(row => {
+        const filterData = Object.entries(filter);
+
+        // const filterValues = filterData.filter(([key, value]) => typeof value === 'string');
+
+        return filterData.some(([key, value]) => {
+          return typeof value !== 'string' || row[key].toLowerCase().includes(value.toLowerCase());
+        });
+      })
+    }
+
+    return data;
   }
 
-  insert({table, data}) {
+  insert(table, data) {
     if(Array.isArray(this.#database[table])) {
       this.#database[table].push(data);
     } else {

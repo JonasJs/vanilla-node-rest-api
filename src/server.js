@@ -3,6 +3,7 @@ import "./database/index.js";
 
 import { routes } from "./routes/index.js";
 import { buildBody } from "./middlewares/build-body.js";
+import { extractQueryParams } from "./utils/extract-query-params.js";
 
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
@@ -13,8 +14,10 @@ const server = http.createServer(async (request, response) => {
 
   if(route) {
     const routeParams = request.url.match(route.path);
-    
-    request.params = routeParams.groups;
+    const { query, ...params } = routeParams.groups;
+
+    request.params = params;
+    request.query = extractQueryParams(query);
 
     return route.handle(request, response);
   }

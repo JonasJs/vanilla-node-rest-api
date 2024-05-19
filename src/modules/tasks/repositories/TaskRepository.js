@@ -10,11 +10,14 @@ export class TaskReposistory {
   }
 
   createTask(data) {
-    database.insert({
-      table: this.#table,
-      data
-    });
+    database.insert(this.#table, data);
 
     return data;
+  }
+
+  listTasks({ filter } = {}) {
+    const tasks = database.select(this.#table, { filter });
+
+    return tasks;
   }
 };
