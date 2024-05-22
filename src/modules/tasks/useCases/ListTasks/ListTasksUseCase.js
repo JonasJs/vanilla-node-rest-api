@@ -8,7 +8,6 @@ export class ListTasksUseCase {
   }
 
   execute(filter) {
-
     const filterData = Object.fromEntries(
       Object.entries(filter).filter(([_, value]) => typeof value === 'string')
     );

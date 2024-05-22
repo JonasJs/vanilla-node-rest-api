@@ -1,3 +1,5 @@
+import { extractFieldErrorsMessages } from "./extract-field-errors.js";
+
 function isObject(obj) {
   return obj !== null && typeof obj === "object";
 }
@@ -42,6 +44,7 @@ export function validateSchema(schema, data) {
     return {
       success: false,
       errors: validationErrors,
+      formattedError: extractFieldErrorsMessages(validationErrors) 
     };
   }
 

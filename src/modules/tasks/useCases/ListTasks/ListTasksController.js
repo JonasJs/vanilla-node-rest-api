@@ -1,6 +1,8 @@
 
 import { ListTasksUseCase } from "./ListTasksUseCase.js";
 import { validateSchema } from "../../../../../data-guard/index.js";
+import { buildResponse } from "../../../../utils/build-response.js";
+import { AppError } from "../../../../errors/app-error.js";
 
 const schema = {
   title: "string",
@@ -10,17 +12,15 @@ const schema = {
 export class ListTasksController {
   handle(req, res) {
     const { title, description } = req.query;
-
-    const listTasksUseCase = new ListTasksUseCase();
-
     const validationResult = validateSchema(schema, {title, description});
-
+    
     if(!validationResult.success) {
-      return res.writeHead(400).end(JSON.stringify(validationResult.errors));
+      throw new AppError("Invalid fields", 400, ionResult.formattedError);
     }
-
+    
+    const listTasksUseCase = new ListTasksUseCase();
     const data = listTasksUseCase.execute(validationResult.data);
 
-    return res.writeHead(200).end(JSON.stringify(data));
+    return buildResponse(res, { data });
   }
 }

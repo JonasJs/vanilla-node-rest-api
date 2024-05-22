@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-export class Tasks {
+export class Task {
   id;
   title;
   description;

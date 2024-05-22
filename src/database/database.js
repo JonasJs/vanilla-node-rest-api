@@ -6,12 +6,15 @@ export class Database {
   #database = {};
   
   constructor() {
-    
     fs.readFile(databasePath, 'utf-8').then((file) => {
       this.#database = JSON.parse(file);
     }).catch(() => {
       this.#persist();
     })
+  }
+   
+  #tableAlreadyExist(table) {
+    return Array.isArray(this.#database[table]);
   }
 
   #persist(){
@@ -49,6 +52,15 @@ export class Database {
     this.#persist();
 
     return data;
+  }
+  
+  findById(table, id) {
+    if(!this.#tableAlreadyExist(table)) {
+      return null;
+    }
+
+    const data = this.#database[table].find(row => row.id === id);
+    return data ?? null
   }
 
 

@@ -20,4 +20,10 @@ export class TaskReposistory {
 
     return tasks;
   }
+
+  findById(id) {
+    const task = database.findById("this.#table", id);
+    
+    return task;
+  }
 };

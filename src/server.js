@@ -4,6 +4,8 @@ import "./database/index.js";
 import { routes } from "./routes/index.js";
 import { buildBody } from "./middlewares/build-body.js";
 import { extractQueryParams } from "./utils/extract-query-params.js";
+import { AppError } from "./errors/app-error.js";
+import { buildResponse } from "./utils/build-response.js";
 
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
@@ -18,8 +20,25 @@ const server = http.createServer(async (request, response) => {
 
     request.params = params;
     request.query = extractQueryParams(query);
+    try {
+      return route.handle(request, response);
+    } catch (error) {
 
-    return route.handle(request, response);
+      if (error instanceof AppError) {
+        return buildResponse(response, {
+          statusCode: error.statusCode,
+          status: "error",
+          message: error.message,
+          errors: error.data
+        })
+      }
+
+      return buildResponse(response, {
+        statusCode: 500,
+        status: "error",
+        message: `Internal server error`
+      });
+    }
   }
 
   return response.writeHead(404).end();

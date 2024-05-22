@@ -1,7 +1,7 @@
-import { Tasks } from "../../entities/Tasks.js";
+import { Task } from "../../entities/Task.js";
 import { TaskReposistory } from "../../repositories/TaskRepository.js";
 
-export class CreateTasksUseCase {
+export class CreateTaskUseCase {
   #taskRepository;
 
   constructor() {
@@ -9,7 +9,7 @@ export class CreateTasksUseCase {
   }
   
   execute(data) {
-    const task = new Tasks(data.title, data.description);
+    const task = new Task(data.title, data.description);
 
     this.#taskRepository.createTask(task);
     
