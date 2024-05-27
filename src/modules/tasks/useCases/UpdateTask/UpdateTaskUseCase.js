@@ -13,7 +13,8 @@ export class UpdateTaskUseCase {
     if(!taskAlreadyExist) {
       throw new AppError("Tasks not found", 404);
     }
+    const taskUpdated = this.#taskRepository.updateById(data.id, data);
 
-    return data;
+    return taskUpdated;
   }
 }

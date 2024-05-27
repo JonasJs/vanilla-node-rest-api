@@ -33,6 +33,7 @@ const server = http.createServer(async (request, response) => {
         })
       }
 
+      console.log("Internal Error => ", error.message)
       return buildResponse(response, {
         statusCode: 500,
         status: "error",

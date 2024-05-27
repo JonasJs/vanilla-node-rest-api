@@ -8,6 +8,7 @@ export class Database {
   constructor() {
     fs.readFile(databasePath, 'utf-8').then((file) => {
       this.#database = JSON.parse(file);
+      console.log("aqui");
     }).catch(() => {
       this.#persist();
     })
@@ -56,12 +57,32 @@ export class Database {
   
   findById(table, id) {
     if(!this.#tableAlreadyExist(table)) {
-      return null;
+      throw new Error(`Table ${table} does not exist.`);
     }
 
     const data = this.#database[table].find(row => row.id === id);
     return data ?? null
   }
 
+  updateById(table, id, newData) {
+    // TODO: Colocar essa validação de forma global
+    if(!this.#tableAlreadyExist(table)) {
+      throw new Error(`Table ${table} does not exist.`);
+    }
 
+    console.log("newData => ", newData);
+
+    const index = this.#database[table].findIndex(row => row.id === id);
+    if (index && index === -1) {
+      throw new Error("Data not found");
+    }
+
+    const updatedData = { ...this.#database[table][index], ...newData };
+    this.#database[table][index] = updatedData;
+    
+    console.log("this.#database[table][index] => ", this.#database[table][index]);
+
+    this.#persist();
+    return updatedData;
+  }
 }

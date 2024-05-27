@@ -16,14 +16,14 @@ export class TaskReposistory {
   }
 
   listTasks(filter) {
-    const tasks = database.select(this.#table, filter);
-
-    return tasks;
+    return database.select(this.#table, filter);
   }
 
   findById(id) {
-    const task = database.findById("this.#table", id);
-    
-    return task;
+    return database.findById(this.#table, id);
+  }
+
+  updateById(id, data) {
+    return database.updateById(this.#table, id, data);
   }
 };
