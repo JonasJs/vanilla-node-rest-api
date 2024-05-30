@@ -3,8 +3,8 @@ import fs from 'node:fs';
 import { Transform, Readable } from 'node:stream';
 import { validateSchema } from '../data-guard/index.js';
 
+const BASE_URL = 'http://localhost:3333';
 const csvPath = new URL('./tasks.csv', import.meta.url);
-
 
 const schema = {
   title: {
@@ -17,22 +17,22 @@ const schema = {
   },
 };
 
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 class TransfromCSV extends Transform {
   #buffers = [];
 
-  _transform(chunk, encoding, callback) {
+  constructor() {
+    super({ readableObjectMode: true });
+  }
+
+  _transform(chunk, _, callback) {
     this.#buffers.push(chunk);
 
     const buffers = Buffer.concat(this.#buffers).toString();
     let rows = buffers.split('\n');
-    
-    // Remove Headers
+  
+    // Remove a primeira linha do csv(Headers)
     rows.shift();
-    
+
     for (const row of rows) {
       const [title, description] = row.split(',');
 
@@ -47,42 +47,10 @@ class TransfromCSV extends Transform {
         description
       }
 
-      this.push(JSON.stringify(task) + '\n');
-    }
-    callback();
-    // const lines = this.#bunormalize_optionsffer
-  }
-
-  async _flush(callback) {
-    if(this.#buffers.length > 0) {
-      console.log(this.#buffers);
-
-      const buffers = Buffer.concat(this.#buffers).toString();
-      let rows = buffers.split('\n');
-      // Remove Headers
-      rows.shift();
-      
-      // const buffersString = Buffer.concat(this.#buffers).toString();
-      for await (const row of rows) {
-        
-        const [title, description] = row.split(',');
-        console.log("aqui => ", row);
-        const validationResult = validateSchema(schema, { title, description });
-  
-        if(validationResult.success) {
-          const task = {
-            title,
-            description
-          }
-    
-          this.push(JSON.stringify(task) + '\n');
-        }
-      }
-
+      this.push(JSON.stringify(task));
     }
     callback();
   }
-
 }
 
 
@@ -93,11 +61,17 @@ async function createTaskUsingCSV() {
   const rows = readStream.pipe(transfromCSV);
 
   for await (const row of rows) {
-    console.log(row.toString());
-    await wait(1000);
+    await wait(2000);
+    
+    const url = `${BASE_URL}/task`;
+    const body = {
+      method: "POST",
+      body: row.toString(),
+    }
+
+    await fetch(url, body);
   }
 
-  // console.log(linesParse);
 }
 
 createTaskUsingCSV();
