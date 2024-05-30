@@ -15,7 +15,8 @@ export class CompleteTaskUseCase {
       throw new AppError("Tasks not found", 404);
     }
 
-    const completed_at = taskAlreadyExist?.completed_at ? null : getBrazilianTimestamp();
+    const isTaskCompleted = !!taskAlreadyExist.completed_at
+    const completed_at = isTaskCompleted ? null : getBrazilianTimestamp();
     const updated_at = getBrazilianTimestamp();
 
     const taskUpdated = this.#taskRepository.updateById(id, { completed_at, updated_at });

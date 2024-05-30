@@ -15,11 +15,11 @@ const completeTaskController = new CompleteTaskController();
 // Router
 const router = new Router();
 
-router.post("/tasks", createTaskController.handle);
+router.post("/task", createTaskController.handle);
 router.get("/tasks", listTasksController.handle);
-router.put("/tasks/:id", updateTaskController.handle);
-router.delete("/tasks/:id", deleteTaskController.handle);
-router.patch("/tasks/:id/complete", completeTaskController.handle);
+router.put("/task/:id", updateTaskController.handle);
+router.delete("/task/:id", deleteTaskController.handle);
+router.patch("/task/:id/complete", completeTaskController.handle);
 
 const routes = router?.routes;
 
