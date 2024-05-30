@@ -26,4 +26,8 @@ export class TaskReposistory {
   updateById(id, data) {
     return database.updateById(this.#table, id, data);
   }
+
+  deleteById(id) {
+    return database.deleteById(this.#table, id);
+  }
 };

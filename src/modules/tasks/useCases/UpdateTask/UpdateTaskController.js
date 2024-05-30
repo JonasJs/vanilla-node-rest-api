@@ -20,10 +20,7 @@ export class UpdateTaskController {
 
     const updateTaskUseCase = new UpdateTaskUseCase();
 
-    const data = updateTaskUseCase.execute({
-      id,
-      ...validationResult,
-    });
+    const data = updateTaskUseCase.execute(id, validationResult.data);
     
     return buildResponse(res, { data })
   }

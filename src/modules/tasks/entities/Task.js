@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { getBrazilianTimestamp } from "../../../utils/get-brazilian-timestamp.js";
 
 export class Task {
   id;
@@ -10,7 +11,7 @@ export class Task {
 
   constructor(title, description) {
     this.id = randomUUID();
-    this.created_at = new Date().getTime();
+    this.created_at = getBrazilianTimestamp();
     this.title = title;
     this.description = description;
   }

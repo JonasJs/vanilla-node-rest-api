@@ -23,7 +23,6 @@ const server = http.createServer(async (request, response) => {
     try {
       return route.handle(request, response);
     } catch (error) {
-
       if (error instanceof AppError) {
         return buildResponse(response, {
           statusCode: error.statusCode,
@@ -32,8 +31,7 @@ const server = http.createServer(async (request, response) => {
           errors: error.data
         })
       }
-
-      console.log("Internal Error => ", error.message)
+      
       return buildResponse(response, {
         statusCode: 500,
         status: "error",

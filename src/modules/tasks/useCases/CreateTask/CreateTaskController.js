@@ -15,10 +15,9 @@ const schema = {
 };
 
 export class CreateTaskController {
-  handle(req, res) {  
-    const { title, description } = req.body;
+  handle(req, res) {
     
-    const validationResult = validateSchema(schema, {title, description});
+    const validationResult = validateSchema(schema, req.body);
 
     if(!validationResult.success) {
       throw new AppError("Invalid fields", 400, validationResult.formattedError);
@@ -28,6 +27,6 @@ export class CreateTaskController {
 
     const data = createTaskUseCase.execute(req.body);
 
-    return buildResponse(res, { status: 201, data });
+    return buildResponse(res, { data });
   }
 }
