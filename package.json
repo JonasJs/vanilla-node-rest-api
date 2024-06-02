@@ -1,5 +1,5 @@
 {
-  "name": "fundamentals-challenge",
+  "name": "vanilla-node-rest-api",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "test": "node --test"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jonas Alves <jonas@hitapp.com.br> (https://linkedin.com/in/jonasbalves)",
   "license": "ISC",
-  "description": ""
+  "description": "A project for a REST API using pure Node.js, without the addition of any frameworks or dependencies." 
 }
